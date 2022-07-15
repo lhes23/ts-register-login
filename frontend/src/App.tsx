@@ -11,6 +11,7 @@ function App() {
     <div className="App">
       <h1>Register and Login</h1>
       <Navbar />
+
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
