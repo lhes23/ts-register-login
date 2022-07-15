@@ -7,7 +7,9 @@ const dbConnect = () => {
     );
   mongoose
     .connect(process.env.MONGODB_URI)
-    .then(() => console.log(`Connected to the Database`))
+    .then(() =>
+      console.log(`Connected to the Database: ${process.env.DB_NAME}`)
+    )
     .catch((err) => console.log(`Error : ${err}`));
 };
 
