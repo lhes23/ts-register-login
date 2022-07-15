@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User from "../models/userModels";
+import bcrypt from "bcrypt";
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -13,7 +14,9 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const addNewUser = async (req: Request, res: Response) => {
   try {
     const { email, username, password } = req.body;
-    const user = await User.create({ email, username, password });
+    const salt = bcrypt.genSaltSync(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+    const user = await User.create({ email, username, password: hashPassword });
     return res.status(200).json({ user });
   } catch (error) {
     return res.status(400).json(error);
@@ -51,6 +54,21 @@ export const deleteUser = async (req: Request, res: Response) => {
     return res
       .status(200)
       .json({ status: "Success", message: `Deleted id: ${_id}` });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    // const isMatch = await bcrypt.compare(password, user);
+    // if (!isMatch) {
+    //   return res.status(400).send({ message: "Password Incorrect" });
+    // }
+
+    return res.status(200).json({ user });
   } catch (error) {
     return res.status(400).json(error);
   }
