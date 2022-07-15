@@ -63,11 +63,10 @@ export const loginUser = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
-    // const isMatch = await bcrypt.compare(password, user);
-    // if (!isMatch) {
-    //   return res.status(400).send({ message: "Password Incorrect" });
-    // }
-
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).send({ message: "Password Incorrect" });
+    }
     return res.status(200).json({ user });
   } catch (error) {
     return res.status(400).json(error);
