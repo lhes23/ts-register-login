@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { AddNewUser } from "../api/UserApi";
+import Navbar from "../components/Navbar";
 
 type Props = {};
 const RegisterPage = (props: Props) => {
@@ -36,6 +37,7 @@ const RegisterPage = (props: Props) => {
 
   return (
     <>
+      <Navbar />
       <div className="container mx-auto">
         <div className="flex justify-center px-6 my-12">
           <div className="w-full xl:w-3/4 lg:w-11/12 flex">

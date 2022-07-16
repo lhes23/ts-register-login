@@ -9,6 +9,11 @@ type IUserRegister = IUser & {
   email: string;
 };
 
+export const getAllUsers = async () => {
+  const res = await fetch(url);
+  return res;
+};
+
 export const AddNewUser = async ({
   username,
   email,

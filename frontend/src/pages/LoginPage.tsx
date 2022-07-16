@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api/UserApi";
+import Navbar from "../components/Navbar";
 
 type Props = {};
 const LoginPage = (props: Props) => {
@@ -18,6 +19,7 @@ const LoginPage = (props: Props) => {
   };
   return (
     <div>
+      <Navbar />
       <div className="bg-gray-100 h-screen overflow-hidden flex items-center justify-center">
         <div className="bg-white lg:w-5/12 md:6/12 w-10/12 shadow-3xl">
           <form className="p-12 md:p-24" onSubmit={formSubmitHandler}>
