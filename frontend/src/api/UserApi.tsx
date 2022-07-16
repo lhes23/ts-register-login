@@ -1,4 +1,6 @@
-const url = "http://localhost:5000/api/users";
+import { baseUrl } from ".";
+
+const url = baseUrl + "/users";
 
 type IUser = {
   username: string;
