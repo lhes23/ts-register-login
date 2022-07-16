@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api/UserApi";
 import Navbar from "../components/Navbar";
 
-type Props = {};
-const LoginPage = (props: Props) => {
+const LoginPage = () => {
   const nav = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -13,7 +12,7 @@ const LoginPage = (props: Props) => {
     e.preventDefault();
     const res = await loginUser({ username, password });
     if (!res.ok) {
-      return console.log(`Wrong Username or Password`);
+      return console.log(res);
     }
     nav("/dashboard/");
   };

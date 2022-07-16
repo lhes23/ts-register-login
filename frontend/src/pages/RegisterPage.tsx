@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { AddNewUser } from "../api/UserApi";
 import Navbar from "../components/Navbar";
 
-type Props = {};
-const RegisterPage = (props: Props) => {
+const RegisterPage = () => {
   const nav = useNavigate();
+
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -24,7 +24,7 @@ const RegisterPage = (props: Props) => {
     console.log(username, email, password, password2);
     const res = await AddNewUser({ username, email, password });
     if (!res.ok) {
-      return console.log(`Something Went Wrong`);
+      return console.log(res);
     }
     nav("/login");
   };
