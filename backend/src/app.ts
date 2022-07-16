@@ -6,6 +6,7 @@ import dbConnect from "./db";
 import { errorHandler, httpErrorHandler } from "./errorHandlers";
 import indexRoutes from "./routes/indexRoutes";
 import userRoutes from "./routes/userRoutes";
+import budgetRoutes from "./routes/budgetRoutes";
 
 // Initialize App
 config();
@@ -20,6 +21,7 @@ app.use(cors());
 // Routes
 app.use("/", indexRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/budgets", budgetRoutes);
 
 // Error Handlers
 app.use(errorHandler);
