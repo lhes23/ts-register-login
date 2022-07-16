@@ -18,3 +18,33 @@ export const addNewBudget = async (req: Request, res: Response) => {
     return res.status(400).json(error);
   }
 };
+
+export const getSingleBudget = async (req: Request, res: Response) => {
+  try {
+    const _id = req.params.id;
+    const budget = await Budget.find({ _id });
+    return res.status(200).json({ budget });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+export const updateBudget = async (req: Request, res: Response) => {
+  try {
+    const _id = req.params.id;
+    const budget = await Budget.findByIdAndUpdate({ _id }, req.body);
+    return res.status(200).json({ budget });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+export const deleteBudget = async (req: Request, res: Response) => {
+  try {
+    const _id = req.params.id;
+    const budget = await Budget.findByIdAndDelete({ _id });
+    return res.status(200).json({ message: `Successfully Deleted Id: ${_id}` });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
