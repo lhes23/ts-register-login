@@ -11,27 +11,6 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const addNewUser = async (req: Request, res: Response) => {
-  try {
-    const { email, username, password } = req.body;
-    const checkUserName = await User.find({ username });
-    const checkEmail = await User.find({ email });
-
-    if (checkUserName || checkEmail) {
-      return res
-        .status(400)
-        .json({ message: "Username or Email already exists" });
-    }
-
-    const salt = bcrypt.genSaltSync(10);
-    const hashPassword = await bcrypt.hash(password, salt);
-    const user = await User.create({ email, username, password: hashPassword });
-    return res.status(200).json({ user });
-  } catch (error) {
-    return res.status(400).json(error);
-  }
-};
-
 export const getSingleUser = async (req: Request, res: Response) => {
   try {
     const _id = req.params.id;
@@ -63,6 +42,27 @@ export const deleteUser = async (req: Request, res: Response) => {
     return res
       .status(200)
       .json({ status: "Success", message: `Deleted id: ${_id}` });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+export const registerUser = async (req: Request, res: Response) => {
+  try {
+    const { email, username, password } = req.body;
+    const checkUserName = await User.find({ username });
+    const checkEmail = await User.find({ email });
+
+    if (checkUserName || checkEmail) {
+      return res
+        .status(400)
+        .json({ message: "Username or Email already exists" });
+    }
+
+    const salt = bcrypt.genSaltSync(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+    const user = await User.create({ email, username, password: hashPassword });
+    return res.status(200).json({ user });
   } catch (error) {
     return res.status(400).json(error);
   }
