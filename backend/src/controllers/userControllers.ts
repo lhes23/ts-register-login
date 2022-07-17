@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/userModels";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -62,7 +63,14 @@ export const registerUser = async (req: Request, res: Response) => {
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = await bcrypt.hash(password, salt);
     const user = await User.create({ email, username, password: hashPassword });
-    return res.status(200).json({ user });
+    return res
+      .status(200)
+      .json({
+        _id: user.id,
+        username: user.username,
+        email: user.email,
+        token: generateToken(user._id),
+      });
   } catch (error) {
     return res.status(400).json(error);
   }
@@ -77,8 +85,19 @@ export const loginUser = async (req: Request, res: Response) => {
     if (!isMatch) {
       return res.status(400).send({ message: "Password Incorrect" });
     }
-    return res.status(200).json({ user });
+    return res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      token: generateToken(user._id),
+    });
   } catch (error) {
     return res.status(400).json({ error, message: "hello error" });
   }
+};
+
+const generateToken = (id: string) => {
+  if (!process.env.JWT_SECRET)
+    return console.log(`Please fill the JWT_SECRET from the env file`);
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };

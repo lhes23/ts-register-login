@@ -16,7 +16,7 @@ export const getAllUsers = async () => {
   return res;
 };
 
-export const AddNewUser = async ({
+export const registerUser = async ({
   username,
   email,
   password,

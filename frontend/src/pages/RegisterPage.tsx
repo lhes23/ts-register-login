@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { AddNewUser } from "../api/UserApi";
+import { registerUser } from "../api/UserApi";
 import Navbar from "../components/Navbar";
 
 const RegisterPage = () => {
@@ -22,7 +22,7 @@ const RegisterPage = () => {
 
     setError(null);
     console.log(username, email, password, password2);
-    const res = await AddNewUser({ username, email, password });
+    const res = await registerUser({ username, email, password });
     if (!res.ok) {
       return console.log(res);
     }
