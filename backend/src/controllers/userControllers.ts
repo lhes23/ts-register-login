@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const users = await User.find();
+    const users = await User.find({}, { password: 0 });
     return res.status(200).json({ users });
   } catch (error) {
     return res.status(400).json(error);
@@ -51,8 +51,8 @@ export const deleteUser = async (req: Request, res: Response) => {
 export const registerUser = async (req: Request, res: Response) => {
   try {
     const { email, username, password } = req.body;
-    const checkUserName = await User.find({ username });
-    const checkEmail = await User.find({ email });
+    const checkUserName = await User.findOne({ username });
+    const checkEmail = await User.findOne({ email });
 
     if (checkUserName || checkEmail) {
       return res
@@ -63,14 +63,12 @@ export const registerUser = async (req: Request, res: Response) => {
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = await bcrypt.hash(password, salt);
     const user = await User.create({ email, username, password: hashPassword });
-    return res
-      .status(200)
-      .json({
-        _id: user.id,
-        username: user.username,
-        email: user.email,
-        token: generateToken(user._id),
-      });
+    return res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      token: generateToken(user._id),
+    });
   } catch (error) {
     return res.status(400).json(error);
   }

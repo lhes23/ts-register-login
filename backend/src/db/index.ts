@@ -10,7 +10,7 @@ const dbConnect = () => {
     .then(() =>
       console.log(`Connected to the Database: ${process.env.DB_NAME}`)
     )
-    .catch((err) => console.log(`Error : ${err}`));
+    .catch((err) => console.log(err));
 };
 
 export default dbConnect;
